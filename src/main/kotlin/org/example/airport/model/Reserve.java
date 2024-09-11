@@ -2,6 +2,7 @@ package org.example.airport.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -29,9 +30,8 @@ public class Reserve {
     @JoinColumn(name = "client-id", referencedColumnName = "id")
     private Client client;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="fligh-id", referencedColumnName="id")
-    private Fligh fligh;
+    @ManyToMany(mappedBy = "reserve-id", fetch=FetchType.EAGER)
+    private ArrayList<Reserve> reserves;
 
     @Column
     private LocalDateTime reservationDate;
@@ -41,5 +41,6 @@ public class Reserve {
 
     @OneToMany(mappedBy = "reserve",fetch = FetchType.LAZY)
     private Set<Passanger> passangers;
+
 
 }
