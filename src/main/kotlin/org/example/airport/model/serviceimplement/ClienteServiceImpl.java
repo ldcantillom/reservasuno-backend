@@ -1,13 +1,18 @@
-package org.example.airport.model.services;
+package org.example.airport.model.serviceimplement;
 import org.example.airport.model.repositories.ClienteRepository;
-import org.example.airport.model.Client;
+import org.example.airport.model.entities.Client;
+import org.example.airport.model.services.ClienteService;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ClienteServiceImpl implements ClienteService {
+
+    public ClienteServiceImpl(ClienteRepository clienteRepository) {
+        this.clienteRepository = clienteRepository;
+    }
+
     private ClienteRepository clienteRepository;
-    public ClienteServiceImpl(ClienteRepository clienteRepository) {this.clienteRepository = clienteRepository;}
 
     @Override
     public Client guardar(Client cliente) {

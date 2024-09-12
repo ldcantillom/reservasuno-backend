@@ -1,7 +1,6 @@
-package org.example.airport.model;
+package org.example.airport.model.entities;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import jakarta.persistence.*;
 

@@ -1,6 +1,6 @@
 package org.example.airport.model.services;
 
-import org.example.airport.model.Client;
+import org.example.airport.model.entities.Client;
 import java.util.List;
 import java.util.Optional;
 

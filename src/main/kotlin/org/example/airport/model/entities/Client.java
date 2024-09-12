@@ -1,7 +1,6 @@
-package org.example.airport.model;
+package org.example.airport.model.entities;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import jakarta.persistence.*;
 
@@ -18,8 +17,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "Passangers")
-public class Passanger {
+@Table(name = "clients")
+public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -39,10 +38,8 @@ public class Passanger {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
-    private String cedula;
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    private ArrayList<Reserve> reserves;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reserve_id")
-    private Reserve reserve;
+
 }
