@@ -23,7 +23,7 @@ public class Scale {
 
     @OneToOne(optional = false)
     @JoinColumn(name="fligh-id", referencedColumnName="id")
-    private Fligh fligh;
+    private Flight flight;
 
     @OneToOne(optional = false)
     @JoinColumn(name="airport-id", referencedColumnName="id")
@@ -38,10 +38,10 @@ public class Scale {
             joinColumns = @JoinColumn(name = "fligh-id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "client-id", referencedColumnName = "id")
     )
-    private List<Fligh> flighs = new ArrayList<>();
+    private List<Flight> flights = new ArrayList<>();
 
     public void addStudent(Client flih){
-        this.flighs.add(fligh);
+        this.flights.add(flight);
     }
 
 

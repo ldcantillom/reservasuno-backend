@@ -20,7 +20,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Table(name = "flighs")
-public class Fligh {
+public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -48,8 +48,8 @@ public class Fligh {
 
     @ManyToMany
     @JoinTable(
-            name = "Reserve-Flighs",
-            joinColumns = @JoinColumn(name = "fligh-id", referencedColumnName = "id"),
+            name = "Reserve-Flights",
+            joinColumns = @JoinColumn(name = "flight-id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "reserve-id", referencedColumnName = "id")
     )
     private List<Reserve> reserves = new ArrayList<>();
