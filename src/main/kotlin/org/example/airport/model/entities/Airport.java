@@ -29,7 +29,7 @@ public class Airport {
     private String country;
 
     @OneToMany(mappedBy = "airport_origin", fetch=FetchType.EAGER)
-    private ArrayList<Fligh> flighs;
+    private ArrayList<Flight> flights;
 
 
 }
