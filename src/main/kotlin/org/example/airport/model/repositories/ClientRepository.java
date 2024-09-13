@@ -6,6 +6,6 @@ import java.util.List;
 import java.util.Collection;
 
 public interface ClientRepository extends JpaRepository<Client,Long> {
-    List<Client> findByNombre(String nombre);
+    List<Client> findByName(String name);
     List<Client> findByIdIn(Collection<Long> ids);
 }
