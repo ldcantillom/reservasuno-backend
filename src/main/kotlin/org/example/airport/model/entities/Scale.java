@@ -21,6 +21,9 @@ public class Scale {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
 
+    @Column
+    private String name;
+
     @OneToOne(optional = false)
     @JoinColumn(name="fligh-id", referencedColumnName="id")
     private Flight flight;

@@ -39,7 +39,7 @@ public class Reserve {
     private int numberOfSeats;
 
     @OneToMany(mappedBy = "reserve",fetch = FetchType.LAZY)
-    private Set<Passanger> passangers;
+    private Set<Passenger> passengers;
 
 
 }

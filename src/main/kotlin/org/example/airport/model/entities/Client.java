@@ -30,7 +30,7 @@ public class Client {
     private String lastName;
 
     @Column(nullable = false)
-    private String direction;
+    private String Address;
 
     @Column(nullable = false)
     private String cell;
