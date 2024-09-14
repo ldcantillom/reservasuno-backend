@@ -15,8 +15,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "Passangers")
-public class Passanger {
+@Table(name = "Passengers")
+public class Passenger {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -28,7 +28,7 @@ public class Passanger {
     private String lastName;
 
     @Column(nullable = false)
-    private String direction;
+    private String Address;
 
     @Column(nullable = false)
     private String cell;
