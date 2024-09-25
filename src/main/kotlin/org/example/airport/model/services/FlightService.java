@@ -10,12 +10,12 @@ import java.util.Optional;
 
 public interface FlightService {
     Flight saveFlight(Flight flight);
-    Optional<Flight> findFlightById(Long id);
-    List<Flight> findAllFlights();
-    List<Flight> findAllFlightsByIds(List<Long> ids);
-    List<Flight> findAllFlightsByAirport(Airport airport);
-    List<Flight> findAllFlightsByDate(LocalDateTime date);
-    List<Flight> findAllFlightsByAirportAndDate(Airport airport, LocalDateTime date);
+    Optional<Flight> getFlightById(Long id);
+    List<Flight> getAllFlights();
+    List<Flight> getAllFlightsByIds(List<Long> ids);
+    List<Flight> getAllFlightsByAirport(Airport airport);
+    List<Flight> getAllFlightsByDate(LocalDateTime date);
+    List<Flight> getAllFlightsByAirportAndDate(Airport airport, LocalDateTime date);
     Optional<Flight> updateFlight(Long id, Flight flight);
     void deleteFlight(Long id);
 }

@@ -21,12 +21,12 @@ public class AirlaneController {
 
     @GetMapping()
     public ResponseEntity<List<Airlane>> getAllAirlanes() {
-        return ResponseEntity.ok(airlaneService.findAllAirlanes());
+        return ResponseEntity.ok(airlaneService.getAllAirlanes());
     }
 
     @GetMapping("id")
     public ResponseEntity<Airlane> getAirlaneById(@RequestParam Long id) {
-        return airlaneService.findAirlaneById(id)
+        return airlaneService.getAirlaneById(id)
                 .map( a -> ResponseEntity.ok().body(a))
                 .orElse(ResponseEntity.notFound().build());
     }

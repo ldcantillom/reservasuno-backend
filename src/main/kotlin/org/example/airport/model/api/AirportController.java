@@ -23,12 +23,12 @@ public class AirportController {
 
     @GetMapping()
     public ResponseEntity<List<Airport>> getAllAirports() {
-        return ResponseEntity.ok(airportService.findAllAirports());
+        return ResponseEntity.ok(airportService.getAllAirports());
     }
 
     @GetMapping("id")
     public ResponseEntity<Airport> getAirportById(@PathVariable Long id) {
-        return airportService.findById(id)
+        return airportService.getById(id)
                 .map( c -> ResponseEntity.ok().body(c))
                 .orElse(ResponseEntity.notFound().build());
     }

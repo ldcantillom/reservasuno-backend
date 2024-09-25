@@ -23,12 +23,12 @@ public class ReserveController {
 
     @GetMapping()
     public ResponseEntity<List<Reserve>> getAllReserves() {
-        return ResponseEntity.ok(reserveService.findAllReserves());
+        return ResponseEntity.ok(reserveService.getAllReserves());
     }
 
     @GetMapping("/id")
     public ResponseEntity<Reserve> getReserveById(@PathVariable Long id) {
-        return reserveService.findReserveById(id)
+        return reserveService.getReserveById(id)
                 .map( c -> ResponseEntity.ok().body(c))
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -21,22 +21,22 @@ public class AirlaneServiceImpl implements AirlaneService {
     }
 
     @Override
-    public Optional<Airlane> findAirlaneById(Long id) {
+    public Optional<Airlane> getAirlaneById(Long id) {
         return airlaneRepository.findById(id);
     }
 
     @Override
-    public List<Airlane> findAllAirlanes() {
+    public List<Airlane> getAllAirlanes() {
         return airlaneRepository.findAll();
     }
 
     @Override
-    public List<Airlane> findAllAirlanesByIds(List<Long> ids) {
+    public List<Airlane> getAllAirlanesByIds(List<Long> ids) {
         return airlaneRepository.findAllById(ids);
     }
 
     @Override
-    public List<Airlane> findAllAirlanesByName(String airportName) {
+    public List<Airlane> getAllAirlanesByName(String airportName) {
         Airlane a = new Airlane() ;
         a.setName(airportName);
         Example<Airlane> example = Example.of(a);
@@ -45,7 +45,7 @@ public class AirlaneServiceImpl implements AirlaneService {
 
 
     @Override
-    public List<Airlane> findAllAirlanesByCountry(String country) {
+    public List<Airlane> getAllAirlanesByCountry(String country) {
         Airlane a = new Airlane();
         a.setOrigin_country(country);
         Example<Airlane> example= Example.of(a);

@@ -22,12 +22,12 @@ public class PassengerController {
 
     @GetMapping()
     public ResponseEntity<List<Passenger>> getAllPassengers() {
-        return ResponseEntity.ok(passengerService.findAllPassengers());
+        return ResponseEntity.ok(passengerService.getAllPassengers());
     }
 
     @GetMapping("/id")
     public ResponseEntity<Passenger> getPassengerById(@PathVariable Long id) {
-        return passengerService.findById(id)
+        return passengerService.getById(id)
                 .map( c -> ResponseEntity.ok().body(c))
                 .orElse(ResponseEntity.notFound().build());
     }

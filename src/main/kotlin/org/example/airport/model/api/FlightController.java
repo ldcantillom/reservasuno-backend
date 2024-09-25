@@ -22,12 +22,12 @@ public class FlightController {
 
     @GetMapping()
     public ResponseEntity<List<Flight>> getAllFlights() {
-        return ResponseEntity.ok(flightService.findAllFlights());
+        return ResponseEntity.ok(flightService.getAllFlights());
     }
 
     @GetMapping("/id")
     public ResponseEntity<Flight> getFlightById(@RequestParam Long id) {
-        return flightService.findFlightById(id)
+        return flightService.getFlightById(id)
                 .map( a -> ResponseEntity.ok().body(a))
                 .orElse(ResponseEntity.notFound().build());
     }

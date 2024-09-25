@@ -21,22 +21,22 @@ public class AirportServiceImpl implements AirportService {
     }
 
     @Override
-    public Optional<Airport> findById(Long id) {
+    public Optional<Airport> getById(Long id) {
         return airportRepository.findById(id);
     }
 
     @Override
-    public List<Airport> findAllAirports() {
+    public List<Airport> getAllAirports() {
         return airportRepository.findAll();
     }
 
     @Override
-    public List<Airport> findAllAirportsByIds(List<Long> ids) {
+    public List<Airport> getAllAirportsByIds(List<Long> ids) {
         return airportRepository.findAllById(ids);
     }
 
     @Override
-    public List<Airport> findAllAirportsByName(String airportName) {
+    public List<Airport> getAllAirportsByName(String airportName) {
         Airport a = new Airport() ;
         a.setName(airportName);
         Example<Airport> example = Example.of(a);
@@ -44,7 +44,7 @@ public class AirportServiceImpl implements AirportService {
     }
 
     @Override
-    public List<Airport> findAllAirportsByCity(String city) {
+    public List<Airport> getAllAirportsByCity(String city) {
         Airport a = new Airport() ;
         a.setCity(city);
         Example<Airport> example = Example.of(a);
@@ -52,7 +52,7 @@ public class AirportServiceImpl implements AirportService {
     }
 
     @Override
-    public List<Airport> findAllAirportByCountry(String country) {
+    public List<Airport> getAllAirportByCountry(String country) {
         Airport a = new Airport();
         a.setCountry(country);
         Example<Airport> example= Example.of(a);

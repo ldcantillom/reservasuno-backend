@@ -23,17 +23,17 @@ public class ReserveServiceImpl implements ReserveService {
     }
 
     @Override
-    public Optional<Reserve> findReserveById(Long id) {
+    public Optional<Reserve> getReserveById(Long id) {
         return reserveRepository.findById(id);
     }
 
     @Override
-    public List<Reserve> findAllReserves() {
+    public List<Reserve> getAllReserves() {
         return reserveRepository.findAll();
     }
 
     @Override
-    public List<Reserve> findAllReservesByDate(LocalDateTime date) {
+    public List<Reserve> getAllReservesByDate(LocalDateTime date) {
         Reserve reserve = new Reserve();
         reserve.setReservationDate(date);
         Example<Reserve> example = Example.of(reserve);
@@ -42,7 +42,7 @@ public class ReserveServiceImpl implements ReserveService {
 
 
     @Override
-    public List<Reserve> findAllReservesByClient(Client client) {
+    public List<Reserve> getAllReservesByClient(Client client) {
         Reserve reserve = new Reserve();
         reserve.setClient(client);
         Example<Reserve> example = Example.of(reserve);
