@@ -3,10 +3,12 @@ import org.example.airport.model.repositories.AirlaneRepository;
 import org.example.airport.model.entities.Airlane;
 import org.example.airport.model.services.AirlaneService;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AirlaneServiceImpl implements AirlaneService {
     public AirlaneServiceImpl(AirlaneRepository airlaneRepository) {
         this.airlaneRepository=airlaneRepository;
@@ -51,12 +53,12 @@ public class AirlaneServiceImpl implements AirlaneService {
     }
 
     @Override
-    public Optional<Airlane> updateAirport(Long id, Airlane airpAirlaneort) {
+    public Optional<Airlane> updateAirlane(Long id, Airlane airpAirlane) {
         return airlaneRepository.findById(id).map(oldAirlane -> {
-            oldAirlane.setName(airpAirlaneort.getName());
-            oldAirlane.setOrigin_country(airpAirlaneort.getOrigin_country());
-            oldAirlane.setFlights(airpAirlaneort.getFlights());
-            oldAirlane.setAirlane_code(airpAirlaneort.getAirlane_code());
+            oldAirlane.setName(airpAirlane.getName());
+            oldAirlane.setOrigin_country(airpAirlane.getOrigin_country());
+            oldAirlane.setFlights(airpAirlane.getFlights());
+            oldAirlane.setAirlane_code(airpAirlane.getAirlane_code());
             return airlaneRepository.save(oldAirlane);
         });
     }

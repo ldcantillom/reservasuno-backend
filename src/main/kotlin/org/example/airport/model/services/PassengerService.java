@@ -1,6 +1,8 @@
 package org.example.airport.model.services;
 
 import org.example.airport.model.entities.Passenger;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,5 +17,5 @@ public interface PassengerService {
     List<Passenger> findAllPassengersByPhone(String phone);
     List<Passenger> findAllPassengersByAddress(String address);
     Optional<Passenger> updatePassenger(Long id, Passenger passenger);
-    void deletePassenger(Passenger passenger);
+    void deletePassenger(Long id);
 }

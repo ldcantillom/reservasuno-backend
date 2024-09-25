@@ -4,10 +4,12 @@ import org.example.airport.model.entities.Passenger;
 import org.example.airport.model.repositories.PassengerRepository;
 import org.example.airport.model.services.PassengerService;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class PassengerServiceImpl implements PassengerService {
     public PassengerServiceImpl(PassengerRepository passengerRepository) {
         this.passengerRepository = passengerRepository;
@@ -87,7 +89,7 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public void deletePassenger(Passenger passenger) {
-        passengerRepository.delete(passenger);
+    public void deletePassenger(Long id) {
+        passengerRepository.deleteById(id);
     }
 }
