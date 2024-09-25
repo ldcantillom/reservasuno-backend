@@ -2,6 +2,7 @@ package org.example.airport.model.services;
 
 import org.example.airport.model.entities.Airlane;
 import org.example.airport.model.entities.Airport;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,6 @@ public interface AirlaneService {
     List<Airlane> findAllAirlanesByIds(List<Long> ids);
     List<Airlane> findAllAirlanesByName(String name);
     List<Airlane> findAllAirlanesByCountry(String country);
-    Optional<Airport> updateAirlane(Long id, Airlane airlane);
+    Optional<Airlane> updateAirlane(Long id, Airlane airlane);
     void deleteAirlane(Long id);
 }

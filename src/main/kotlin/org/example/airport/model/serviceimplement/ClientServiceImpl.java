@@ -3,10 +3,12 @@ import org.example.airport.model.repositories.ClientRepository;
 import org.example.airport.model.entities.Client;
 import org.example.airport.model.services.ClientService;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ClientServiceImpl implements ClientService {
 
     public ClientServiceImpl(ClientRepository clientRepository) {

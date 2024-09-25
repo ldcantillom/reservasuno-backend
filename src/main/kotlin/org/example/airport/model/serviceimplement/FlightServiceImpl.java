@@ -5,11 +5,13 @@ import org.example.airport.model.entities.Flight;
 import org.example.airport.model.repositories.FlightRepository;
 import org.example.airport.model.services.FlightService;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class FlightServiceImpl implements FlightService {
     public FlightServiceImpl(FlightRepository flightRepository) {
         this.flighRepository = flightRepository;
@@ -79,7 +81,5 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public void deleteFlight(Flight flight) {
-        flighRepository.delete(flight);
-    }
+    public void deleteFlight(Long id) { flighRepository.deleteById(id); }
 }
