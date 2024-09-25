@@ -1,18 +1,17 @@
 package org.example.airport.model.serviceimplement;
 
-import org.example.airport.model.entities.Airport;
 import org.example.airport.model.entities.Client;
-import org.example.airport.model.entities.Flight;
 import org.example.airport.model.entities.Reserve;
 import org.example.airport.model.repositories.ReserveRepository;
 import org.example.airport.model.services.ReserveService;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ReserveServiceImpl implements ReserveService {
     public ReserveServiceImpl(ReserveRepository reserveRepository) {
         this.reserveRepository = reserveRepository;
@@ -52,7 +51,7 @@ public class ReserveServiceImpl implements ReserveService {
 
 
     @Override
-    public Optional<Reserve> updateReserve(Long id, Reserve reserve,Client client) {
+    public Optional<Reserve> updateReserve(Long id, Reserve reserve) {
         return reserveRepository.findById(id).map(oldReserve -> {
             oldReserve.setReservationDate(reserve.getReservationDate());
             oldReserve.setClient(reserve.getClient());
@@ -65,7 +64,7 @@ public class ReserveServiceImpl implements ReserveService {
     }
 
     @Override
-    public void deleteReserveById(Long id) {
+    public void deleteReserve(Long id) {
         reserveRepository.deleteById(id);
     }
 }
