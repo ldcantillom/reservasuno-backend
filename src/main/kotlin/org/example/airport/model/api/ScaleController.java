@@ -23,12 +23,12 @@ public class ScaleController {
 
     @GetMapping("/scales")
     public ResponseEntity<List<Scale>> getAllScales() {
-        return ResponseEntity.ok(scaleService.findAllScales());
+        return ResponseEntity.ok(scaleService.getAllScales());
     }
 
     @GetMapping("/id")
     public ResponseEntity<Scale> getScaleById(@PathVariable Long id) {
-        return scaleService.findById(id)
+        return scaleService.getById(id)
                 .map( c -> ResponseEntity.ok().body(c))
                 .orElse(ResponseEntity.notFound().build());
     }

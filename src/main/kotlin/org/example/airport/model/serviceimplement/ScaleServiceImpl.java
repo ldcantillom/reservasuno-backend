@@ -23,17 +23,17 @@ public class ScaleServiceImpl implements ScaleService {
     }
 
     @Override
-    public Optional<Scale> findById(Long id) {
+    public Optional<Scale> getById(Long id) {
         return scaleRepository.findById(id);
     }
 
     @Override
-    public List<Scale> findAllScales() {
+    public List<Scale> getAllScales() {
         return scaleRepository.findAll();
     }
 
     @Override
-    public List<Scale> findAllScalesByName(String name) {
+    public List<Scale> getAllScalesByName(String name) {
         Scale scale = new Scale();
         scale.setName(name);
         Example<Scale> example = Example.of(scale);
@@ -41,7 +41,7 @@ public class ScaleServiceImpl implements ScaleService {
     }
 
     @Override
-    public List<Scale> findAllScalesByAirportOrigin(Airport airport) {
+    public List<Scale> getAllScalesByAirportOrigin(Airport airport) {
         Scale scale = new Scale();
         scale.setAirport(airport);
         Example<Scale> example = Example.of(scale);

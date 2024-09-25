@@ -9,10 +9,10 @@ import java.util.Optional;
 
 public interface ScaleService {
     Scale save(Scale scale);
-    Optional<Scale> findById(Long id);
-    List<Scale> findAllScales();
-    List<Scale> findAllScalesByName(String name);
-    List<Scale> findAllScalesByAirportOrigin(Airport airport);
+    Optional<Scale> getById(Long id);
+    List<Scale> getAllScales();
+    List<Scale> getAllScalesByName(String name);
+    List<Scale> getAllScalesByAirportOrigin(Airport airport);
     Optional<Scale> updateScale(Long id,Scale scale);
     void deleteScale(Long id);
 }

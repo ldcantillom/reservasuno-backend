@@ -25,22 +25,22 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Optional<Flight> findFlightById(Long id) {
+    public Optional<Flight> getFlightById(Long id) {
         return flighRepository.findById(id);
     }
 
     @Override
-    public List<Flight> findAllFlights() {
+    public List<Flight> getAllFlights() {
         return flighRepository.findAll();
     }
 
     @Override
-    public List<Flight> findAllFlightsByIds(List<Long> ids) {
+    public List<Flight> getAllFlightsByIds(List<Long> ids) {
         return flighRepository.findAllById(ids);
     }
 
     @Override
-    public List<Flight> findAllFlightsByAirport(Airport airport) {
+    public List<Flight> getAllFlightsByAirport(Airport airport) {
         Flight flight = new Flight();
         flight.setAirport_origin(airport);
         Example<Flight> example = Example.of(flight);
@@ -48,7 +48,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public List<Flight> findAllFlightsByDate(LocalDateTime date) {
+    public List<Flight> getAllFlightsByDate(LocalDateTime date) {
         Flight flight = new Flight();
         flight.setDeparture_time(date);
         Example<Flight> example = Example.of(flight);
@@ -56,7 +56,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public List<Flight> findAllFlightsByAirportAndDate(Airport airport, LocalDateTime date) {
+    public List<Flight> getAllFlightsByAirportAndDate(Airport airport, LocalDateTime date) {
         Flight flight = new Flight();
         flight.setAirport_origin(airport);
         flight.setDeparture_time(date);

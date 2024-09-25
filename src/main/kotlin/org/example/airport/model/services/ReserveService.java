@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public interface ReserveService {
     Reserve saveReserve(Reserve reserve);
-    Optional<Reserve> findReserveById(Long id);
-    List<Reserve> findAllReserves();
-    List<Reserve> findAllReservesByDate(LocalDateTime date);
-    List<Reserve> findAllReservesByClient(Client client);
+    Optional<Reserve> getReserveById(Long id);
+    List<Reserve> getAllReserves();
+    List<Reserve> getAllReservesByDate(LocalDateTime date);
+    List<Reserve> getAllReservesByClient(Client client);
     Optional<Reserve> updateReserve(Long id, Reserve reserve);
     void deleteReserve(Long id);
 }

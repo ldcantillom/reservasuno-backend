@@ -24,12 +24,12 @@ public class ClientController {
 
     @GetMapping()
     public ResponseEntity<List<Client>> getAllClients(@RequestParam(required = false, value = "name") String name) {
-        return ResponseEntity.ok(clientService.findAllClientsByName(name));
+        return ResponseEntity.ok(clientService.getAllClientsByName(name));
     }
 
     @GetMapping("/id")
     public ResponseEntity<Client> getClientById(@PathVariable Long id) {
-        return clientService.findById(id)
+        return clientService.getById(id)
                 .map( c -> ResponseEntity.ok().body(c))
                 .orElse(ResponseEntity.notFound().build());
     }
