@@ -2,7 +2,7 @@ package org.example.airport.model.entities;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -39,7 +39,7 @@ public class Reserve {
     private int numberOfSeats;
 
     @OneToMany(mappedBy = "reserve",fetch = FetchType.LAZY)
-    private Set<Passenger> passengers;
+    private List<Passenger> passengers;
 
 
 }

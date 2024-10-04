@@ -1,7 +1,5 @@
 package org.example.airport.model.api;
 
-import org.example.airport.model.entities.Client;
-import org.example.airport.model.entities.Scale;
 import org.example.airport.model.services.ScaleService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;

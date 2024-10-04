@@ -1,6 +1,6 @@
 package org.example.airport.model.entities;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -30,7 +30,7 @@ public class Client {
     private String lastName;
 
     @Column(nullable = false)
-    private String Address;
+    private String address;
 
     @Column(nullable = false)
     private String cell;
@@ -39,7 +39,7 @@ public class Client {
     private String email;
 
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
-    private ArrayList<Reserve> reserves;
+    private List<Reserve> reserves;
 
 
 }
