@@ -1,6 +1,7 @@
 package org.example.airport.model.api;
 
-import org.example.airport.model.entities.Passenger;
+import org.example.airport.model.dtos.PassengerDto;
+import org.example.airport.model.dtos.PassengerIdDto;
 import org.example.airport.model.services.PassengerService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -14,27 +15,27 @@ import java.util.Optional;
 @RestController
 @RequestMapping("api/v1/passenger")
 public class PassengerController {
-    private PassengerService passengerService;
+    private final PassengerService passengerService;
 
     public PassengerController(PassengerService passengerService) {
         this.passengerService = passengerService;
     }
 
     @GetMapping()
-    public ResponseEntity<List<Passenger>> getAllPassengers() {
+    public ResponseEntity<List<PassengerIdDto>> getAllPassengers() {
         return ResponseEntity.ok(passengerService.getAllPassengers());
     }
 
     @GetMapping("/id")
-    public ResponseEntity<Passenger> getPassengerById(@PathVariable Long id) {
+    public ResponseEntity<PassengerIdDto> getPassengerById(@PathVariable Long id) {
         return passengerService.getById(id)
                 .map( c -> ResponseEntity.ok().body(c))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping()
-    public ResponseEntity<Passenger> createPassenger(@RequestBody Passenger passenger) {
-        return createNewPassenger(passenger);
+    public ResponseEntity<PassengerIdDto> createPassenger(@RequestBody PassengerDto passengerDto) {
+        return createNewPassenger(passengerDto);
 
         // Passenger c = passengerService.savePassenger(passenger);
         // return ResponseEntity.created(new URI("/api/v1/passengers/" + c.getId())).body(c);
@@ -42,12 +43,12 @@ public class PassengerController {
     }
 
     @PutMapping("/id")
-    public ResponseEntity<Passenger> updatePassenger(@PathVariable Long id, @RequestBody Passenger passenger) {
-        Optional<Passenger> passengerUpdated = passengerService.updatePassenger(id, passenger);
+    public ResponseEntity<PassengerIdDto> updatePassenger(@PathVariable Long id, @RequestBody PassengerDto passengerDto) {
+        Optional<PassengerIdDto> passengerUpdated = passengerService.updatePassenger(id, passengerDto);
         return passengerUpdated
                 .map(c -> ResponseEntity.ok(c))
                 .orElseGet(() -> {
-                    return createNewPassenger(passenger);
+                    return createNewPassenger(passengerDto);
                 });
     }
 
@@ -58,12 +59,14 @@ public class PassengerController {
     }
 
     @NotNull
-    private static ResponseEntity<Passenger> createNewPassenger(Passenger c) {
+    private ResponseEntity<PassengerIdDto> createNewPassenger(PassengerDto p) {
+        PassengerIdDto passangerSaved = passengerService.savePassenger(p);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(c.getId())
+                .buildAndExpand(passangerSaved.id())
                 .toUri();
-        return ResponseEntity.created(location).body(c);
+        return ResponseEntity.created(location).body(passangerSaved);
     }
+
 }

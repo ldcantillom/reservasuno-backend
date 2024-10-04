@@ -58,7 +58,6 @@ public class ReserveServiceImpl implements ReserveService {
             oldReserve.setReservationDate(reserve.getReservationDate());
             oldReserve.setPassengers(reserve.getPassengers());
             oldReserve.setNumberOfSeats(reserve.getNumberOfSeats());
-            oldReserve.setReserves(reserve.getReserves());
             return reserveRepository.save(oldReserve);
         });
     }

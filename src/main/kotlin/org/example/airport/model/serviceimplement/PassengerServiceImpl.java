@@ -1,6 +1,10 @@
 package org.example.airport.model.serviceimplement;
 
+import org.example.airport.model.dtos.PassengerDto;
+import org.example.airport.model.dtos.PassengerIdDto;
 import org.example.airport.model.entities.Passenger;
+import org.example.airport.model.mapper.PassengerMapper;
+import org.example.airport.model.repositories.ClientRepository;
 import org.example.airport.model.repositories.PassengerRepository;
 import org.example.airport.model.services.PassengerService;
 import org.springframework.data.domain.Example;
@@ -11,82 +15,80 @@ import java.util.Optional;
 
 @Service
 public class PassengerServiceImpl implements PassengerService {
-    public PassengerServiceImpl(PassengerRepository passengerRepository) {
-        this.passengerRepository = passengerRepository;
-    }
     private PassengerRepository passengerRepository;
+    private final PassengerMapper passengerMapper;
 
-    @Override
-    public Passenger savePassenger(Passenger passenger) {
-        return passengerRepository.save(passenger);
+    public PassengerServiceImpl(PassengerRepository passengerRepository, PassengerMapper passengerMapper, ClientRepository clientRepository) {
+        this.passengerRepository = passengerRepository;
+        this.passengerMapper = passengerMapper;
     }
 
     @Override
-    public Optional<Passenger> getById(long id) {
-        return passengerRepository.findById(id);
+    public PassengerIdDto savePassenger(PassengerDto passengerDto) {
+        return passengerMapper.toIdDto(passengerRepository.save(passengerMapper.toEntity(passengerDto)));
     }
 
     @Override
-    public List<Passenger> getAllPassengers() {
-        return passengerRepository.findAll();
+    public Optional<PassengerIdDto> getById(long id) {
+        return Optional.of(passengerMapper.toIdDto(passengerRepository.findById(id).get()));
     }
 
     @Override
-    public List<Passenger> getAllPassengersByIds(List<Long> ids) {
-        return passengerRepository.findAllById(ids);
+    public List<PassengerIdDto> getAllPassengers() {
+        return passengerMapper.toListIdDto(passengerRepository.findAll());
     }
 
     @Override
-    public List<Passenger> getAllPassengersByFirstName(String firstName) {
+    public List<PassengerIdDto> getAllPassengersByIds(List<Long> ids) {
+        return passengerMapper.toListIdDto(passengerRepository.findAllById(ids));
+    }
+
+    @Override
+    public List<PassengerIdDto> getAllPassengersByName(String firstName) {
         Passenger p = new Passenger();
         p.setFirstName(firstName);
         Example<Passenger> example = Example.of(p);
-        return passengerRepository.findAll(example);
+        return passengerMapper.toListIdDto(passengerRepository.findAll(example));
     }
 
     @Override
-    public List<Passenger> getAllPassengersByLastName(String lastName) {
-        Passenger p = new Passenger();
-        p.setLastName(lastName);
-        Example<Passenger> example = Example.of(p);
-        return passengerRepository.findAll(example);
-    }
-
-    @Override
-    public List<Passenger> getAllPassengersByEmail(String email) {
+    public List<PassengerIdDto> getAllPassengersByEmail(String email) {
         Passenger p = new Passenger();
         p.setEmail(email);
         Example<Passenger> example = Example.of(p);
-        return passengerRepository.findAll(example);
+        return passengerMapper.toListIdDto(passengerRepository.findAll(example));
     }
 
     @Override
-    public List<Passenger> getAllPassengersByPhone(String phone) {
+    public List<PassengerIdDto> getAllPassengersByPhone(String phone) {
         Passenger p = new Passenger();
         p.setCell(phone);
         Example<Passenger> example = Example.of(p);
-        return passengerRepository.findAll(example);
+        return passengerMapper.toListIdDto(passengerRepository.findAll(example));
     }
 
     @Override
-    public List<Passenger> getAllPassengersByAddress(String address) {
+    public List<PassengerIdDto> getAllPassengersByAddress(String address) {
         Passenger p = new Passenger();
         p.setAddress(address);
         Example<Passenger> example = Example.of(p);
-        return passengerRepository.findAll(example);
+        return passengerMapper.toListIdDto(passengerRepository.findAll(example));
     }
 
     @Override
-    public Optional<Passenger> updatePassenger(Long id, Passenger passenger) {
+    public Optional<PassengerIdDto> updatePassenger(Long id, PassengerDto passengerDto) {
         return passengerRepository.findById(id).map(oldPassenger -> {
-            oldPassenger.setFirstName(passenger.getFirstName());
-            oldPassenger.setLastName(passenger.getLastName());
-            oldPassenger.setEmail(passenger.getEmail());
-            oldPassenger.setAddress(passenger.getAddress());
-            oldPassenger.setCell(passenger.getCell());
-            return passengerRepository.save(oldPassenger);
+            oldPassenger.setFirstName(passengerDto.firstName());
+            oldPassenger.setLastName(passengerDto.lastName());
+            oldPassenger.setAddress(passengerDto.address());
+            oldPassenger.setCell(passengerDto.cell());
+            oldPassenger.setEmail(passengerDto.email());
+            oldPassenger.setIdentificationNumber(passengerDto.identificationNumber());
+            oldPassenger.setReserve(passengerMapper.toEntity(passengerDto).getReserve());
+            return passengerMapper.toIdDto(passengerRepository.save(oldPassenger));
         });
     }
+
 
     @Override
     public void deletePassenger(Long id) {
