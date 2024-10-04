@@ -47,7 +47,7 @@ public class AirlaneServiceImpl implements AirlaneService {
     @Override
     public List<Airlane> getAllAirlanesByCountry(String country) {
         Airlane a = new Airlane();
-        a.setOrigin_country(country);
+        a.setOriginCountry(country);
         Example<Airlane> example= Example.of(a);
         return airlaneRepository.findAll(Example.of(a));
     }
@@ -56,9 +56,9 @@ public class AirlaneServiceImpl implements AirlaneService {
     public Optional<Airlane> updateAirlane(Long id, Airlane airpAirlane) {
         return airlaneRepository.findById(id).map(oldAirlane -> {
             oldAirlane.setName(airpAirlane.getName());
-            oldAirlane.setOrigin_country(airpAirlane.getOrigin_country());
+            oldAirlane.setOriginCountry(airpAirlane.getOriginCountry());
             oldAirlane.setFlights(airpAirlane.getFlights());
-            oldAirlane.setAirlane_code(airpAirlane.getAirlane_code());
+            oldAirlane.setAirlaneCode(airpAirlane.getAirlaneCode());
             return airlaneRepository.save(oldAirlane);
         });
     }

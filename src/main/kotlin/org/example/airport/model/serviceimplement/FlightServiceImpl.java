@@ -42,7 +42,7 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public List<Flight> getAllFlightsByAirport(Airport airport) {
         Flight flight = new Flight();
-        flight.setAirport_origin(airport);
+        flight.setAirportOrigin(airport);
         Example<Flight> example = Example.of(flight);
         return flighRepository.findAll(example);
     }
@@ -50,7 +50,7 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public List<Flight> getAllFlightsByDate(LocalDateTime date) {
         Flight flight = new Flight();
-        flight.setDeparture_time(date);
+        flight.setDepartureTime(date);
         Example<Flight> example = Example.of(flight);
         return flighRepository.findAll(example);
     }
@@ -58,8 +58,8 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public List<Flight> getAllFlightsByAirportAndDate(Airport airport, LocalDateTime date) {
         Flight flight = new Flight();
-        flight.setAirport_origin(airport);
-        flight.setDeparture_time(date);
+        flight.setAirportOrigin(airport);
+        flight.setDepartureTime(date);
         Example<Flight> example = Example.of(flight);
         return flighRepository.findAll(example);
     }
@@ -69,13 +69,13 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public Optional<Flight> updateFlight(Long id,Flight flight) {
         return flighRepository.findById(id).map(oldFligh -> {
-            oldFligh.setDeparture_time(flight.getDeparture_time());
-            oldFligh.setAirport_origin(flight.getAirport_origin());
+            oldFligh.setDepartureTime(flight.getDepartureTime());
+            oldFligh.setAirportOrigin(flight.getAirportOrigin());
+            oldFligh.setAirportDestination(flight.getAirportDestination());
             oldFligh.setAirlane(flight.getAirlane());
             oldFligh.setCapacity(flight.getCapacity());
-            oldFligh.setArrival_time(flight.getArrival_time());
+            oldFligh.setArrivalTime(flight.getArrivalTime());
             oldFligh.setReserves(flight.getReserves());
-            oldFligh.setAirport_destination(flight.getAirport_destination());
             return flighRepository.save(oldFligh);
         });
     }
