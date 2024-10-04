@@ -28,7 +28,7 @@ public class Passenger {
     private String lastName;
 
     @Column(nullable = false)
-    private String Address;
+    private String address;
 
     @Column(nullable = false)
     private String cell;
@@ -37,7 +37,7 @@ public class Passenger {
     private String email;
 
     @Column(nullable = false)
-    private String cedula;
+    private String identificationNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reserve_id")

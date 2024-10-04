@@ -23,10 +23,10 @@ public class Airlane {
     private String name;
 
     @Column
-    private String airlane_code;
+    private String airlaneCode;
 
     @Column
-    private String origin_country;
+    private String originCountry;
 
     @OneToMany(mappedBy="airlane", fetch = FetchType.EAGER)
     private List<Flight> flights;
