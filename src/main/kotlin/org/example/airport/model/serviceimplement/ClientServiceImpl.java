@@ -1,4 +1,7 @@
 package org.example.airport.model.serviceimplement;
+import org.example.airport.model.dtos.ClientDto;
+import org.example.airport.model.mapper.ClientMapper;
+import org.example.airport.model.dtos.ClientIdDto;
 import org.example.airport.model.repositories.ClientRepository;
 import org.example.airport.model.entities.Client;
 import org.example.airport.model.services.ClientService;
@@ -10,50 +13,51 @@ import java.util.Optional;
 
 @Service
 public class ClientServiceImpl implements ClientService {
-
-    public ClientServiceImpl(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
-
     private ClientRepository clientRepository;
+    private final ClientMapper clientMapper;
 
-    @Override
-    public Client saveClient(Client client) {
-        return clientRepository.save(client);
+    public ClientServiceImpl(ClientRepository clientRepository, ClientMapper clientMapper) {
+        this.clientRepository = clientRepository;
+        this.clientMapper = clientMapper;
     }
 
     @Override
-    public Optional<Client> getById(Long id) {
-        return clientRepository.findById(id);
+    public ClientIdDto saveClient(ClientDto clientDto) {
+        return clientMapper.toIdDto(clientRepository.save(clientMapper.toEntity(clientDto)));
     }
 
     @Override
-    public List<Client> getAllClients() {
-        return clientRepository.findAll();
+    public Optional<ClientIdDto> getById(Long id) {
+        return Optional.of(clientMapper.toIdDto(clientRepository.findById(id).get()));
     }
 
     @Override
-    public List<Client> getAllClientsByIds(List<Long> ids) {
-        return clientRepository.findAllById(ids);
+    public List<ClientIdDto> getAllClients() {
+        return clientMapper.toListIdDto(clientRepository.findAll());
     }
 
     @Override
-    public List<Client> getAllClientsByName(String name) {
+    public List<ClientIdDto> getAllClientsByIds(List<Long> ids) {
+        return clientMapper.toListIdDto(clientRepository.findAllById(ids));
+    }
+
+    @Override
+    public List<ClientIdDto> getAllClientsByName(String name) {
         Client c = new Client();
         c.setFirstName(name);
         Example<Client> example = Example.of(c);
-        return clientRepository.findAll(example);
+        return clientMapper.toListIdDto(clientRepository.findAll(example));
     }
 
     @Override
-    public Optional<Client> updateClient(Long id, Client client) {
+    public Optional<ClientIdDto> updateClient(Long id, ClientDto clientDto) {
         return clientRepository.findById(id).map(oldClient -> {
-            oldClient.setFirstName(client.getFirstName());
-            oldClient.setLastName(client.getLastName());
-            oldClient.setEmail(client.getEmail());
-            oldClient.setAddress(client.getAddress());
-            oldClient.setCell(client.getCell());
-            return clientRepository.save(oldClient);
+            oldClient.setFirstName(clientDto.firstname());
+            oldClient.setLastName(clientDto.lastName());
+            oldClient.setEmail(clientDto.email());
+            oldClient.setAddress(clientDto.address());
+            oldClient.setCell(clientDto.cell());
+            return clientMapper.toIdDto(clientRepository.save(oldClient));
         });
     }
 
