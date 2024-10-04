@@ -1,6 +1,6 @@
 package org.example.airport.model.entities;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -29,5 +29,5 @@ public class Airlane {
     private String origin_country;
 
     @OneToMany(mappedBy="airlane", fetch = FetchType.EAGER)
-    private ArrayList<Flight> flights;
+    private List<Flight> flights;
 }
