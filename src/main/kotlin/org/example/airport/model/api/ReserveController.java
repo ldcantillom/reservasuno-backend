@@ -2,6 +2,7 @@ package org.example.airport.model.api;
 
 import org.example.airport.model.entities.Client;
 import org.example.airport.model.entities.Reserve;
+import org.example.airport.model.exceptions.ReserveNotFoundException;
 import org.example.airport.model.services.ReserveService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class ReserveController {
     public ResponseEntity<Reserve> getReserveById(@PathVariable Long id) {
         return reserveService.getReserveById(id)
                 .map( c -> ResponseEntity.ok().body(c))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ReserveNotFoundException("Doesnt found Reserve with"+id));
     }
 
     @PostMapping()

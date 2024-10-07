@@ -1,6 +1,7 @@
 package org.example.airport.model.api;
 
 import org.example.airport.model.entities.Airlane;
+import org.example.airport.model.exceptions.AirlaneNotFoundException;
 import org.example.airport.model.services.AirlaneService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class AirlaneController {
     public ResponseEntity<Airlane> getAirlaneById(@RequestParam Long id) {
         return airlaneService.getAirlaneById(id)
                 .map( a -> ResponseEntity.ok().body(a))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(()-> new AirlaneNotFoundException("doesnt found airlane with code"+id)) ;
     }
 
     @PostMapping()
