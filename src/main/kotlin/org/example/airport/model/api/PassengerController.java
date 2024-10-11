@@ -2,6 +2,7 @@ package org.example.airport.model.api;
 
 import org.example.airport.model.dtos.PassengerDto;
 import org.example.airport.model.dtos.PassengerIdDto;
+import org.example.airport.model.exceptions.PassengerNotFoundException;
 import org.example.airport.model.services.PassengerService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class PassengerController {
     public ResponseEntity<PassengerIdDto> getPassengerById(@PathVariable Long id) {
         return passengerService.getById(id)
                 .map( c -> ResponseEntity.ok().body(c))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new PassengerNotFoundException("doesnt found Passenger with id " + id ));
     }
 
     @PostMapping()

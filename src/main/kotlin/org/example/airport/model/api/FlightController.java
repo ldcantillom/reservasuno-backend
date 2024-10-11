@@ -2,6 +2,7 @@ package org.example.airport.model.api;
 
 import org.example.airport.model.entities.Flight;
 import org.example.airport.model.entities.Flight;
+import org.example.airport.model.exceptions.FlightNotFoundException;
 import org.example.airport.model.services.FlightService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class FlightController {
     public ResponseEntity<Flight> getFlightById(@RequestParam Long id) {
         return flightService.getFlightById(id)
                 .map( a -> ResponseEntity.ok().body(a))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(()-> new FlightNotFoundException("doesnt found fligh with"+id));
     }
 
     @PostMapping()
