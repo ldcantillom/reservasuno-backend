@@ -1,6 +1,7 @@
 package org.example.airport.model.api;
 
 import org.example.airport.model.entities.Airport;
+import org.example.airport.model.exceptions.AirportNotFoundException;
 import org.example.airport.model.services.AirportService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -30,16 +31,12 @@ public class AirportController {
     public ResponseEntity<Airport> getAirportById(@PathVariable Long id) {
         return airportService.getById(id)
                 .map( c -> ResponseEntity.ok().body(c))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new AirportNotFoundException("doesnt found airport whit code"+id));
     }
 
     @PostMapping()
     public ResponseEntity<Airport> createAirport(@RequestBody Airport Airport) {
         return createNewAirport(Airport);
-
-        // Airport c = AirportService.saveAirport(Airport);
-        // return ResponseEntity.created(new URI("/api/v1/Airports/" + c.getId())).body(c);
-        // Thowght the exception.
     }
 
     @PutMapping("/id")
