@@ -2,6 +2,7 @@ package org.example.airport.model.api;
 
 import org.example.airport.model.dtos.ClientDto;
 import org.example.airport.model.dtos.ClientIdDto;
+import org.example.airport.model.exceptions.ClientNotFoundException;
 import org.example.airport.model.services.ClientService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class ClientController {
     public ResponseEntity<ClientIdDto> getClientById(@PathVariable Long id) {
         return clientService.getById(id)
                 .map( c -> ResponseEntity.ok().body(c))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ClientNotFoundException("No se encontró el cliente con código"+id));
     }
 
     @PostMapping()
