@@ -1,7 +1,5 @@
 package org.example.airport.model.dtos;
 
-import org.example.airport.model.entities.Reserve;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
