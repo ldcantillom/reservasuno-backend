@@ -1,6 +1,6 @@
 package org.example.airport.model.security.services;
 
-import org.example.airport.model.entities.User;
+import org.example.airport.model.entities.Client;
 import org.example.airport.model.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,7 +13,7 @@ public class UserDetailsServicesImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUserName(username)
+        Client user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 
         return UserDetailsImpl.build(user);

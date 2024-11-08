@@ -1,10 +1,13 @@
 package org.example.airport.model.serviceimplement;
+import lombok.AllArgsConstructor;
 import org.example.airport.model.dtos.ClientDto;
 import org.example.airport.model.mapper.ClientMapper;
 import org.example.airport.model.dtos.ClientIdDto;
 import org.example.airport.model.repositories.ClientRepository;
 import org.example.airport.model.entities.Client;
 import org.example.airport.model.services.ClientService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +15,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Lazy))
 public class ClientServiceImpl implements ClientService {
     private ClientRepository clientRepository;
     private final ClientMapper clientMapper;
 
-    public ClientServiceImpl(ClientRepository clientRepository, ClientMapper clientMapper) {
-        this.clientRepository = clientRepository;
-        this.clientMapper = clientMapper;
-    }
 
     @Override
     public ClientIdDto saveClient(ClientDto clientDto) {

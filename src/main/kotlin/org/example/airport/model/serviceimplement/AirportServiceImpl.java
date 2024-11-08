@@ -1,7 +1,9 @@
 package org.example.airport.model.serviceimplement;
+import lombok.AllArgsConstructor;
 import org.example.airport.model.repositories.AirportRepository;
 import org.example.airport.model.entities.Airport;
 import org.example.airport.model.services.AirportService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Lazy))
 public class AirportServiceImpl implements AirportService {
-    public AirportServiceImpl(AirportRepository airportRepository) {
-        this.airportRepository=airportRepository;
-    }
     private AirportRepository airportRepository;
 
     @Override

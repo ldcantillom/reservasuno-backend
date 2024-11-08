@@ -4,12 +4,12 @@ import org.example.airport.model.dtos.ClientDto;
 import org.example.airport.model.dtos.ClientIdDto;
 import org.example.airport.model.entities.Client;
 import org.mapstruct.Mapper;
-
-import java.util.ArrayList;
+import org.mapstruct.factory.Mappers;
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ClientMapper {
+    ClientMapper INSTANCE = Mappers.getMapper(ClientMapper.class);
 
     Client toEntity(ClientDto clientDto);
     ClientDto toDto(Client client);

@@ -28,7 +28,7 @@ public class Airport {
     @Column(nullable = false)
     private String country;
 
-    @OneToMany(mappedBy = "airport_origin", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "airportOrigin", fetch=FetchType.EAGER)
     private List<Flight> flights;
 
 
