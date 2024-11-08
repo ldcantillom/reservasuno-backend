@@ -1,9 +1,11 @@
 package org.example.airport.model.serviceimplement;
 
+import lombok.AllArgsConstructor;
 import org.example.airport.model.entities.Client;
 import org.example.airport.model.entities.Reserve;
 import org.example.airport.model.repositories.ReserveRepository;
 import org.example.airport.model.services.ReserveService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Lazy))
 public class ReserveServiceImpl implements ReserveService {
-    public ReserveServiceImpl(ReserveRepository reserveRepository) {
-        this.reserveRepository = reserveRepository;
-    }
     private ReserveRepository reserveRepository;
     @Override
     public Reserve saveReserve(Reserve reserve) {

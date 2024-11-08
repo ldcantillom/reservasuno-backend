@@ -3,7 +3,7 @@ package org.example.airport.model.api;
 import org.example.airport.model.dtos.JwtResponse;
 import org.example.airport.model.dtos.LoginRequest;
 import org.example.airport.model.dtos.SignUpRequest;
-import org.example.airport.model.entities.User;
+import org.example.airport.model.entities.Client;
 import org.example.airport.model.repositories.UserRepository;
 import org.example.airport.model.security.jwt.JwtUtil;
 import org.example.airport.model.security.services.UserDetailsImpl;
@@ -40,30 +40,34 @@ public class AuthenticationController {
     UserRepository userRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.username(),
                         loginRequest.password())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtil.generateJwtToken(authentication);
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        String jwtToken= jwtUtil.generateJwtToken(authentication);
+        UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(role -> role.getAuthority()).collect(Collectors.toList());
-        return ResponseEntity.ok(new JwtResponse(jwt, "B", userDetails.getUsername(), roles));
+        return ResponseEntity.ok(new JwtResponse(jwtToken, "Bearer", userDetails.getUsername(), roles));
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignUpRequest sRequest) {
-        User user = new User(
+        Client user = new Client(
                 null,
+                sRequest.firstname(),
+                sRequest.lastname(),
+                sRequest.address(),
+                sRequest.cell(),
+                sRequest.email(),
+                sRequest.reserves(),
                 sRequest.username(),
                 passwordEncoder.encode(sRequest.password()),
-                sRequest.email(),
                 new HashSet<>()
                 );
-        Set<String> roles = sRequest.roles();
-        User newUser = userRepository.save(user);
+        Client newUser = userRepository.save(user);
         return ResponseEntity.ok(newUser);
     }
 }

@@ -1,5 +1,6 @@
 package org.example.airport.model.security;
 
+import lombok.AllArgsConstructor;
 import org.example.airport.model.security.jwt.AuthTokenFilter;
 import org.example.airport.model.security.jwt.exception.AuthEntryPointJwt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    private PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

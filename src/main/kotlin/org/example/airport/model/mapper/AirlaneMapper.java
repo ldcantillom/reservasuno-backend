@@ -5,7 +5,7 @@ import org.example.airport.model.entities.Airlane;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface AirlaneMapper {
     AirlaneMapper INSTANCE = Mappers.getMapper(AirlaneMapper.class);
     Airlane toEntity(AirlaneDto airlaneDto);
