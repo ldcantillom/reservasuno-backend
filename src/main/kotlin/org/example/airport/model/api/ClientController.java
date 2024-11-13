@@ -6,6 +6,7 @@ import org.example.airport.model.exceptions.ClientNotFoundException;
 import org.example.airport.model.services.ClientService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -22,11 +23,13 @@ public class ClientController {
     public ClientController(ClientService clientService) { this.clientService = clientService; }
 
     @GetMapping()
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<ClientIdDto>> getAllClients(@RequestParam(required = false, value = "name") String name) {
         return ResponseEntity.ok(clientService.getAllClientsByName(name));
     }
 
     @GetMapping("/id")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ClientIdDto> getClientById(@PathVariable Long id) {
         return clientService.getById(id)
                 .map( c -> ResponseEntity.ok().body(c))
