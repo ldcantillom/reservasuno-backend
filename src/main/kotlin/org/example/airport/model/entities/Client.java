@@ -26,10 +26,8 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
     private String lastName;
 
     @Column
@@ -38,7 +36,6 @@ public class Client {
     @Column
     private String cell;
 
-    @Column(nullable = false)
     private String email;
 
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
