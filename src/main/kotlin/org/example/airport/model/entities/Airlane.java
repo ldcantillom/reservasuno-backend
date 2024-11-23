@@ -16,7 +16,7 @@ import lombok.*;
 @Table(name = "airlnes")
 public class Airlane {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
 
     @Column
