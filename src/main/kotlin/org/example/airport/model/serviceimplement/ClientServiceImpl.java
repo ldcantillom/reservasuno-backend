@@ -50,7 +50,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Optional<ClientIdDto> updateClient(Long id, ClientDto clientDto) {
         return clientRepository.findById(id).map(oldClient -> {
-            oldClient.setFirstName(clientDto.firstname());
+            oldClient.setFirstName(clientDto.firstName());
             oldClient.setLastName(clientDto.lastName());
             oldClient.setEmail(clientDto.email());
             oldClient.setAddress(clientDto.address());
