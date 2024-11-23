@@ -27,7 +27,7 @@ public class ReserveController {
         return ResponseEntity.ok(reserveService.getAllReserves());
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Reserve> getReserveById(@PathVariable Long id) {
         return reserveService.getReserveById(id)
                 .map( c -> ResponseEntity.ok().body(c))
@@ -43,7 +43,7 @@ public class ReserveController {
         // Thowght the exception.
     }
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public ResponseEntity<Reserve> updateReserve(@PathVariable Long id, @RequestBody Reserve reserve) {
         Optional<Reserve> reserveUpdated = reserveService.updateReserve(id, reserve);
         return reserveUpdated
@@ -53,7 +53,7 @@ public class ReserveController {
                 });
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReserve(@PathVariable Long id) {
         reserveService.deleteReserve(id);
         return ResponseEntity.noContent().build();

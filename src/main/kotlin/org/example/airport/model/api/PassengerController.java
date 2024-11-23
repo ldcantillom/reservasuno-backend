@@ -27,7 +27,7 @@ public class PassengerController {
         return ResponseEntity.ok(passengerService.getAllPassengers());
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<PassengerIdDto> getPassengerById(@PathVariable Long id) {
         return passengerService.getById(id)
                 .map( c -> ResponseEntity.ok().body(c))
@@ -43,7 +43,7 @@ public class PassengerController {
         // Thowght the exception.
     }
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public ResponseEntity<PassengerIdDto> updatePassenger(@PathVariable Long id, @RequestBody PassengerDto passengerDto) {
         Optional<PassengerIdDto> passengerUpdated = passengerService.updatePassenger(id, passengerDto);
         return passengerUpdated
@@ -53,7 +53,7 @@ public class PassengerController {
                 });
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePassenger(@PathVariable Long id) {
         passengerService.deletePassenger(id);
         return ResponseEntity.noContent().build();

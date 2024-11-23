@@ -28,7 +28,7 @@ public class ClientController {
         return ResponseEntity.ok(clientService.getAllClientsByName(name));
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ClientIdDto> getClientById(@PathVariable Long id) {
         return clientService.getById(id)
@@ -45,7 +45,7 @@ public class ClientController {
         // Thowght the exception.
     }
     
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public ResponseEntity<ClientIdDto> updateClient(@PathVariable Long id, @RequestBody ClientDto clientDto) {
         Optional<ClientIdDto> clientUpdated = clientService.updateClient(id, clientDto);
         return clientUpdated
@@ -55,7 +55,7 @@ public class ClientController {
                 });
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
         clientService.deleteClient(id);
         return ResponseEntity.noContent().build();
