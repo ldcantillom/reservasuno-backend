@@ -13,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "airlnes")
+@Table(name = "airlanes")
 public class Airlane {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
