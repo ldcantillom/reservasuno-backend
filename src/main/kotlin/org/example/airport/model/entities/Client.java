@@ -22,6 +22,13 @@ import lombok.ToString;
 @Table(name = "clients")
 public class Client {
 
+    public Client(String username, String email, String encode, Set<Role> roles) {
+        this.username = username;
+        this.email = email;
+        this.password = encode;
+        this.roles = roles;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
