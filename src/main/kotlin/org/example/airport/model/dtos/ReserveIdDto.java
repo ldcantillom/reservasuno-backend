@@ -7,6 +7,6 @@ public record ReserveIdDto(Long id,
                            ClientDto client,
                            LocalDateTime reservationDate,
                            int numberOfSeats,
-                           List<PassengerDto> passangers,
+                           List<PassengerDto> passengers,
                            List<FlightDto> flights) {
 }

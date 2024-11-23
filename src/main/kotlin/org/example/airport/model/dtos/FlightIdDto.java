@@ -5,10 +5,10 @@ import java.util.List;
 
 public record FlightIdDto(Long id,
                           AirlaneDto airlane,
-                          AirportDto airport_origin,
-                          AirportDto airport_destination,
-                          LocalDateTime departure_time,
-                          LocalDateTime arrival_time,
+                          AirportDto airportOrigin,
+                          AirportDto airportDestination,
+                          LocalDateTime departureTime,
+                          LocalDateTime arrivalTime,
                           int capacity,
                           List<ReserveDto> reserves
                        ) {

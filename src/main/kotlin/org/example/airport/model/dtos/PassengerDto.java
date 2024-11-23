@@ -7,5 +7,5 @@ public record PassengerDto(String firstName,
                            String cell,
                            String email,
                            String identificationNumber,
-                           ReserveDto reserveDto ) {
+                           ReserveDto reserve ) {
 }

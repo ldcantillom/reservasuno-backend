@@ -3,7 +3,7 @@ import java.util.List;
 
 
 public record AirlaneDto(String name,
-                         String airlane_code,
-                         String origin_country,
+                         String airlaneCode,
+                         String originCountry,
                          List<FlightDto> flights) {
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 public record AirlaneIdDto(Long id,
                            String name,
-                           String airlane_code,
-                           String origin_country,
+                           String airlaneCode,
+                           String originCountry,
                            List<FlightDto> flights) {
 }

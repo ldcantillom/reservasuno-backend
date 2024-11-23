@@ -6,5 +6,5 @@ import org.example.airport.model.entities.Role;
 import java.util.List;
 import java.util.Set;
 
-public record SignUpRequest (String firstname, String lastname, String address, String cell, String email, List<Reserve> reserves, String username, String password, Set<Role> roles){
+public record SignUpRequest (String firstName, String lastName, String address, String cell, String email, List<Reserve> reserves, String username, String password, Set<Role> roles){
 }
