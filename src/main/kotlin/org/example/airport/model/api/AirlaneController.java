@@ -25,7 +25,7 @@ public class AirlaneController {
         return ResponseEntity.ok(airlaneService.getAllAirlanes());
     }
 
-    @GetMapping("id")
+    @GetMapping("/{id}")
     public ResponseEntity<Airlane> getAirlaneById(@RequestParam Long id) {
         return airlaneService.getAirlaneById(id)
                 .map( a -> ResponseEntity.ok().body(a))
@@ -41,7 +41,7 @@ public class AirlaneController {
         // Thowght the exception.
     }
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public ResponseEntity<Airlane> updateAirlane(@PathVariable Long id, @RequestBody Airlane Airlane) {
         Optional<Airlane> airlaneUpdated = airlaneService.updateAirlane(id, Airlane);
         return airlaneUpdated
@@ -51,7 +51,7 @@ public class AirlaneController {
                 });
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAirlane(@PathVariable Long id) {
         airlaneService.deleteAirlane(id);
         return ResponseEntity.noContent().build();

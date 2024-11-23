@@ -26,7 +26,7 @@ public class FlightController {
         return ResponseEntity.ok(flightService.getAllFlights());
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Flight> getFlightById(@RequestParam Long id) {
         return flightService.getFlightById(id)
                 .map( a -> ResponseEntity.ok().body(a))
@@ -42,7 +42,7 @@ public class FlightController {
         // Thowght the exception.
     }
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public ResponseEntity<Flight> updateFlight(@PathVariable Long id, @RequestBody Flight flight) {
         Optional<Flight> flightUpdated = flightService.updateFlight(id, flight);
         return flightUpdated
@@ -52,7 +52,7 @@ public class FlightController {
                 });
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFlight(@PathVariable Long id) {
         flightService.deleteFlight(id);
         return ResponseEntity.noContent().build();

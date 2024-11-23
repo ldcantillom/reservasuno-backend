@@ -27,7 +27,7 @@ public class AirportController {
         return ResponseEntity.ok(airportService.getAllAirports());
     }
 
-    @GetMapping("id")
+    @GetMapping("/{id}")
     public ResponseEntity<Airport> getAirportById(@PathVariable Long id) {
         return airportService.getById(id)
                 .map( c -> ResponseEntity.ok().body(c))
@@ -39,7 +39,7 @@ public class AirportController {
         return createNewAirport(Airport);
     }
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public ResponseEntity<Airport> updateAirport(@PathVariable Long id, @RequestBody Airport Airport) {
         Optional<Airport> airportUpdated = airportService.updateAirport(id, Airport);
         return airportUpdated
@@ -49,7 +49,7 @@ public class AirportController {
                 });
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAirport(@PathVariable Long id) {
         airportService.deleteAirport(id);
         return ResponseEntity.noContent().build();
