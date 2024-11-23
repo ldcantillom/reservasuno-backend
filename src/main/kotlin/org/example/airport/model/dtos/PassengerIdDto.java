@@ -1,11 +1,11 @@
 package org.example.airport.model.dtos;
 
 public record PassengerIdDto(Long id,
-                             String firatName,
+                             String firstName,
                              String lastName,
-                             String Adress,
+                             String adress,
                              String cell,
                              String email,
-                             String cedula,
-                             ReserveDto reserveDto) {
+                             String identificationNumber,
+                             ReserveDto reserve) {
 }

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -57,8 +56,8 @@ public class AuthenticationController {
     public ResponseEntity<?> registerUser(@RequestBody SignUpRequest sRequest) {
         Client user = new Client(
                 null,
-                sRequest.firstname(),
-                sRequest.lastname(),
+                sRequest.firstName(),
+                sRequest.lastName(),
                 sRequest.address(),
                 sRequest.cell(),
                 sRequest.email(),
