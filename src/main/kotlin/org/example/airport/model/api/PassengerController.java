@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/v1/passenger")
+@RequestMapping("api/v1/passengers")
 public class PassengerController {
     private final PassengerService passengerService;
 
