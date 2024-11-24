@@ -36,7 +36,7 @@ public class Reserve {
     @OneToMany(mappedBy = "reserve", fetch = FetchType.LAZY)
     private List<Passenger> passengers;
 
-    @ManyToMany(mappedBy = "reserves", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "reserves", fetch = FetchType.LAZY)
     private List<Flight> flights;
 
 }

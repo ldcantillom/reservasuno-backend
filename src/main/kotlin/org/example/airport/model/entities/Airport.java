@@ -28,8 +28,6 @@ public class Airport {
     @Column(nullable = false)
     private String country;
 
-    @OneToMany(mappedBy = "airportOrigin", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "airport", fetch = FetchType.LAZY)
     private List<Flight> flights;
-
-
 }

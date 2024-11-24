@@ -17,7 +17,7 @@ import lombok.*;
 public class Airlane {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column
     private String name;
@@ -28,6 +28,6 @@ public class Airlane {
     @Column
     private String originCountry;
 
-    @OneToMany(mappedBy="airlane", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="airlane", fetch = FetchType.LAZY)
     private List<Flight> flights;
 }
