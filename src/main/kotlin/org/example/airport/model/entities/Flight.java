@@ -23,17 +23,19 @@ public class Flight {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String origin;
+
+    @Column(nullable = false)
+    private String destination;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_airlane", referencedColumnName = "id")
     private Airlane airlane;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "id_airport_origin", referencedColumnName = "id")
-    private Airport airportOrigin;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name="id_airport_destination", referencedColumnName="id")
-    private Airport airportDestination;
+    @JoinColumn(name = "id_airport", referencedColumnName = "id")
+    private Airport airport;
 
     @Column(nullable = false)
     private LocalDateTime departureTime;

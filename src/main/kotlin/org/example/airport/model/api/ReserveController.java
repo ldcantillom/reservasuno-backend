@@ -1,7 +1,6 @@
 package org.example.airport.model.api;
 
-import org.example.airport.model.entities.Client;
-import org.example.airport.model.entities.Reserve;
+import org.example.airport.model.dtos.ReserveDto;
 import org.example.airport.model.exceptions.ReserveNotFoundException;
 import org.example.airport.model.services.ReserveService;
 import org.jetbrains.annotations.NotNull;
@@ -23,19 +22,19 @@ public class ReserveController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Reserve>> getAllReserves() {
-        return ResponseEntity.ok(reserveService.getAllReserves());
+    public ResponseEntity<List<ReserveDto>> getAllReserves() {
+        return ResponseEntity.ok(reserveService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Reserve> getReserveById(@PathVariable Long id) {
-        return reserveService.getReserveById(id)
+    public ResponseEntity<ReserveDto> getReserveById(@PathVariable int id) {
+        return reserveService.findById(id)
                 .map( c -> ResponseEntity.ok().body(c))
                 .orElseThrow(() -> new ReserveNotFoundException("Doesnt found Reserve with"+id));
     }
 
     @PostMapping()
-    public ResponseEntity<Reserve> createReserve(@RequestBody Reserve reserve) {
+    public ResponseEntity<ReserveDto> createReserve(@RequestBody ReserveDto reserve) {
         return createNewReserve(reserve);
 
         // Reserve c = reserveService.saveReserve(reserve);
@@ -44,8 +43,8 @@ public class ReserveController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Reserve> updateReserve(@PathVariable Long id, @RequestBody Reserve reserve) {
-        Optional<Reserve> reserveUpdated = reserveService.updateReserve(id, reserve);
+    public ResponseEntity<ReserveDto> updateReserve(@PathVariable int id, @RequestBody ReserveDto reserve) {
+        Optional<ReserveDto> reserveUpdated = reserveService.update(id, reserve);
         return reserveUpdated
                 .map(c -> ResponseEntity.ok(c))
                 .orElseGet(() -> {
@@ -54,17 +53,17 @@ public class ReserveController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReserve(@PathVariable Long id) {
-        reserveService.deleteReserve(id);
+    public ResponseEntity<Void> deleteReserve(@PathVariable int id) {
+        reserveService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @NotNull
-    private static ResponseEntity<Reserve> createNewReserve(Reserve c) {
+    private static ResponseEntity<ReserveDto> createNewReserve(ReserveDto c) {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(c.getId())
+                .buildAndExpand(c.id())
                 .toUri();
         return ResponseEntity.created(location).body(c);
     }

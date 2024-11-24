@@ -1,18 +1,37 @@
 package org.example.airport.model.mapper;
 
 import org.example.airport.model.dtos.ClientDto;
-import org.example.airport.model.dtos.ClientIdDto;
 import org.example.airport.model.entities.Client;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = ReserveMapper.class)
 public interface ClientMapper {
-    ClientMapper INSTANCE = Mappers.getMapper(ClientMapper.class);
+    @Named("complete")
+    @Mapping(source = "client.reserves", target = "reserves", qualifiedByName = "listComplete")
+    ClientDto toIdDto(Client client);
 
+    @Named("listComplete")
+    @Mapping(source = "client.reserves", target = "reserves", qualifiedByName = "listComplete")
+    List<ClientDto> toListIdDto(List<Client> clients);
+
+    @Mapping(source = "clientDto.reserves", target = "reserves")
     Client toEntity(ClientDto clientDto);
+
+
+    @Mapping(source = "clientDto.reserves", target = "reserves")
+    List<Client> toListEntity(List<ClientDto> clientDto);
+
+    @Named("withoutId")
+    @Mapping(target = "id",ignore = true)
+    @Mapping(source = "client.reserves", target = "reserves", qualifiedByName = "listWithoutId")
     ClientDto toDto(Client client);
-    ClientIdDto toIdDto(Client client);
-    List<ClientIdDto> toListIdDto(List<Client> clients);
+
+    @Named("listWithoutId")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(source = "client.reserves", target = "reserves", qualifiedByName = "listWithoutId")
+    List<ClientDto> toListDto(List<Client> clients);
 }
