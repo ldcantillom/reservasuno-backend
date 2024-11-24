@@ -1,6 +1,6 @@
 package org.example.airport.model.api;
 
-import org.example.airport.model.entities.Airport;
+import org.example.airport.model.dtos.AirportDto;
 import org.example.airport.model.exceptions.AirportNotFoundException;
 import org.example.airport.model.services.AirportService;
 import org.jetbrains.annotations.NotNull;
@@ -23,25 +23,25 @@ public class AirportController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Airport>> getAllAirports() {
-        return ResponseEntity.ok(airportService.getAllAirports());
+    public ResponseEntity<List<AirportDto>> getAllAirports() {
+        return ResponseEntity.ok(airportService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Airport> getAirportById(@PathVariable Long id) {
-        return airportService.getById(id)
+    public ResponseEntity<AirportDto> getAirportById(@PathVariable int id) {
+        return airportService.findById(id)
                 .map( c -> ResponseEntity.ok().body(c))
                 .orElseThrow(() -> new AirportNotFoundException("doesnt found airport whit code"+id));
     }
 
     @PostMapping()
-    public ResponseEntity<Airport> createAirport(@RequestBody Airport Airport) {
+    public ResponseEntity<AirportDto> createAirport(@RequestBody AirportDto Airport) {
         return createNewAirport(Airport);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Airport> updateAirport(@PathVariable Long id, @RequestBody Airport Airport) {
-        Optional<Airport> airportUpdated = airportService.updateAirport(id, Airport);
+    public ResponseEntity<AirportDto> updateAirport(@PathVariable int id, @RequestBody AirportDto Airport) {
+        Optional<AirportDto> airportUpdated = airportService.update(id, Airport);
         return airportUpdated
                 .map(c -> ResponseEntity.ok(c))
                 .orElseGet(() -> {
@@ -50,17 +50,17 @@ public class AirportController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAirport(@PathVariable Long id) {
-        airportService.deleteAirport(id);
+    public ResponseEntity<Void> deleteAirport(@PathVariable int id) {
+        airportService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @NotNull
-    private static ResponseEntity<Airport> createNewAirport(Airport c) {
+    private static ResponseEntity<AirportDto> createNewAirport(AirportDto c) {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(c.getId())
+                .buildAndExpand(c.id())
                 .toUri();
         return ResponseEntity.created(location).body(c);
     }

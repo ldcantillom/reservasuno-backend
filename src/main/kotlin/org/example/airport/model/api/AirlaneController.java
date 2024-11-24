@@ -1,6 +1,6 @@
 package org.example.airport.model.api;
 
-import org.example.airport.model.entities.Airlane;
+import org.example.airport.model.dtos.AirlaneDto;
 import org.example.airport.model.exceptions.AirlaneNotFoundException;
 import org.example.airport.model.services.AirlaneService;
 import org.jetbrains.annotations.NotNull;
@@ -21,29 +21,25 @@ public class AirlaneController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Airlane>> getAllAirlanes() {
-        return ResponseEntity.ok(airlaneService.getAllAirlanes());
+    public ResponseEntity<List<AirlaneDto>> getAllAirlanes() {
+        return ResponseEntity.ok(airlaneService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Airlane> getAirlaneById(@RequestParam Long id) {
-        return airlaneService.getAirlaneById(id)
+    public ResponseEntity<AirlaneDto> getAirlaneById(@RequestParam int id) {
+        return airlaneService.findById(id)
                 .map( a -> ResponseEntity.ok().body(a))
                 .orElseThrow(()-> new AirlaneNotFoundException("doesnt found airlane with code"+id)) ;
     }
 
     @PostMapping()
-    public ResponseEntity<Airlane> createAirlane(@RequestBody Airlane Airlane) {
+    public ResponseEntity<AirlaneDto> createAirlane(@RequestBody AirlaneDto Airlane) {
         return createNewAirlane(Airlane);
-
-        // Airlane c = AirlaneService.saveAirlane(Airlane);
-        // return ResponseEntity.created(new URI("/api/v1/Airlanes/" + c.getId())).body(c);
-        // Thowght the exception.
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Airlane> updateAirlane(@PathVariable Long id, @RequestBody Airlane Airlane) {
-        Optional<Airlane> airlaneUpdated = airlaneService.updateAirlane(id, Airlane);
+    public ResponseEntity<AirlaneDto> updateAirlane(@PathVariable int id, @RequestBody AirlaneDto Airlane) {
+        Optional<AirlaneDto> airlaneUpdated = airlaneService.update(id, Airlane);
         return airlaneUpdated
                 .map(c -> ResponseEntity.ok(c))
                 .orElseGet(() -> {
@@ -52,17 +48,17 @@ public class AirlaneController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAirlane(@PathVariable Long id) {
-        airlaneService.deleteAirlane(id);
+    public ResponseEntity<Void> deleteAirlane(@PathVariable int id) {
+        airlaneService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @NotNull
-    private static ResponseEntity<Airlane> createNewAirlane(Airlane c) {
+    private static ResponseEntity<AirlaneDto> createNewAirlane(AirlaneDto c) {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(c.getId())
+                .buildAndExpand(c.id())
                 .toUri();
         return ResponseEntity.created(location).body(c);
     }

@@ -1,7 +1,6 @@
 package org.example.airport.model.api;
 
 import org.example.airport.model.dtos.ClientDto;
-import org.example.airport.model.dtos.ClientIdDto;
 import org.example.airport.model.exceptions.ClientNotFoundException;
 import org.example.airport.model.services.ClientService;
 import org.jetbrains.annotations.NotNull;
@@ -24,30 +23,26 @@ public class ClientController {
 
     @GetMapping()
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<ClientIdDto>> getAllClients(@RequestParam(required = false, value = "name") String name) {
-        return ResponseEntity.ok(clientService.getAllClientsByName(name));
+    public ResponseEntity<List<ClientDto>> getAllClients(@RequestParam(required = false, value = "name") String name) {
+        return ResponseEntity.ok(clientService.findByName(name));
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ClientIdDto> getClientById(@PathVariable Long id) {
-        return clientService.getById(id)
+    public ResponseEntity<ClientDto> getClientById(@PathVariable int id) {
+        return clientService.findById(id)
                 .map( c -> ResponseEntity.ok().body(c))
                 .orElseThrow(() -> new ClientNotFoundException("No se encontró el cliente con código"+id));
     }
 
     @PostMapping()
-    public ResponseEntity<ClientIdDto> createClient(@RequestBody ClientDto clientDto) {
+    public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto clientDto) {
         return createNewClient(clientDto);
-
-        // Client c = clientService.saveClient(client);
-        // return ResponseEntity.created(new URI("/api/v1/clients/" + c.getId())).body(c);
-        // Thowght the exception.
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<ClientIdDto> updateClient(@PathVariable Long id, @RequestBody ClientDto clientDto) {
-        Optional<ClientIdDto> clientUpdated = clientService.updateClient(id, clientDto);
+    public ResponseEntity<ClientDto> updateClient(@PathVariable int id, @RequestBody ClientDto clientDto) {
+        Optional<ClientDto> clientUpdated = clientService.update(id, clientDto);
         return clientUpdated
                 .map(c -> ResponseEntity.ok(c))
                 .orElseGet(() -> {
@@ -56,14 +51,14 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
-        clientService.deleteClient(id);
+    public ResponseEntity<Void> deleteClient(@PathVariable int id) {
+        clientService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @NotNull
-    private ResponseEntity<ClientIdDto> createNewClient(ClientDto c) {
-        ClientIdDto clientSaved = clientService.saveClient(c);
+    private ResponseEntity<ClientDto> createNewClient(ClientDto c) {
+        ClientDto clientSaved = clientService.save(c);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

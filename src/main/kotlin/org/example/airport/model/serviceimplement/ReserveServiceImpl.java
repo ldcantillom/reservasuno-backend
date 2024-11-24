@@ -1,8 +1,14 @@
 package org.example.airport.model.serviceimplement;
 
 import lombok.AllArgsConstructor;
-import org.example.airport.model.entities.Client;
+import org.example.airport.model.dtos.ClientDto;
+import org.example.airport.model.dtos.ReserveDto;
 import org.example.airport.model.entities.Reserve;
+import org.example.airport.model.mapper.ClientMapper;
+import org.example.airport.model.mapper.FlightMapper;
+import org.example.airport.model.mapper.PassengerMapper;
+import org.example.airport.model.mapper.ReserveMapper;
+import org.example.airport.model.repositories.ClientRepository;
 import org.example.airport.model.repositories.ReserveRepository;
 import org.example.airport.model.services.ReserveService;
 import org.springframework.context.annotation.Lazy;
@@ -16,54 +22,56 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor(onConstructor = @__(@Lazy))
 public class ReserveServiceImpl implements ReserveService {
-    private ReserveRepository reserveRepository;
+    private final ClientRepository clientRepository;
+    private ReserveMapper reserveMapper;
+    private ClientMapper clientMapper;
+    private FlightMapper flightMapper;
+    private PassengerMapper passengerMapper;
+    ReserveRepository reserveRepository;
+
     @Override
-    public Reserve saveReserve(Reserve reserve) {
-        return reserveRepository.save(reserve);
+    public ReserveDto save(ReserveDto reserve) {
+        return reserveMapper.toIdDto(reserveRepository.save(reserveMapper.toEntity(reserve)));
     }
 
     @Override
-    public Optional<Reserve> getReserveById(Long id) {
-        return reserveRepository.findById(id);
+    public Optional<ReserveDto> findById(int id) {
+        return reserveRepository.findById((long) id).map(reserveMapper::toDto);
     }
 
     @Override
-    public List<Reserve> getAllReserves() {
-        return reserveRepository.findAll();
-    }
-
-    @Override
-    public List<Reserve> getAllReservesByDate(LocalDateTime date) {
-        Reserve reserve = new Reserve();
-        reserve.setReservationDate(date);
-        Example<Reserve> example = Example.of(reserve);
-        return reserveRepository.findAll(example);
-    }
-
-
-    @Override
-    public List<Reserve> getAllReservesByClient(Client client) {
-        Reserve reserve = new Reserve();
-        reserve.setClient(client);
-        Example<Reserve> example = Example.of(reserve);
-        return reserveRepository.findAll(example);
-    }
-
-
-    @Override
-    public Optional<Reserve> updateReserve(Long id, Reserve reserve) {
-        return reserveRepository.findById(id).map(oldReserve -> {
-            oldReserve.setReservationDate(reserve.getReservationDate());
-            oldReserve.setClient(reserve.getClient());
-            oldReserve.setReservationDate(reserve.getReservationDate());
-            oldReserve.setPassengers(reserve.getPassengers());
-            oldReserve.setNumberOfSeats(reserve.getNumberOfSeats());
-            return reserveRepository.save(oldReserve);
+    public Optional<ReserveDto> update(int id, ReserveDto reserve) {
+        return reserveRepository.findById((long) id).map(oldReserve -> {
+            oldReserve.setClient(clientRepository.findById(reserve.client()).get());
+            oldReserve.setReservationDate(reserve.reservationDate());
+            oldReserve.setFlights(flightMapper.toListEntity(reserve.flights()));
+            oldReserve.setPassengers(passengerMapper.toListEntity(reserve.passengers()));
+            oldReserve.setNumberOfSeats(reserve.numberOfSeats());
+            return reserveMapper.toIdDto(reserveRepository.save(oldReserve));
         });
     }
 
     @Override
-    public void deleteReserve(Long id) {
-        reserveRepository.deleteById(id);
+    public List<ReserveDto> findAll() {
+        return reserveMapper.toListIdDto(reserveRepository.findAll());
+    }
+
+    @Override
+    public List<ReserveDto> findByClient(ClientDto client) {
+        Reserve r = new Reserve();
+        r.setClient(clientMapper.toEntity(client));
+        return reserveMapper.toListIdDto(reserveRepository.findAll(Example.of(r)));
+    }
+
+    @Override
+    public List<ReserveDto> findByDate(LocalDateTime date) {
+        Reserve r = new Reserve();
+        r.setReservationDate(date);
+        return reserveMapper.toListIdDto(reserveRepository.findAll(Example.of(r)));
+    }
+
+    @Override
+    public void deleteById(int id) {
+        reserveRepository.deleteById((long) id);
     }
 }

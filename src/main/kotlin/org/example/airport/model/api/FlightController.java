@@ -1,5 +1,6 @@
 package org.example.airport.model.api;
 
+import org.example.airport.model.dtos.FlightDto;
 import org.example.airport.model.entities.Flight;
 import org.example.airport.model.entities.Flight;
 import org.example.airport.model.exceptions.FlightNotFoundException;
@@ -22,29 +23,25 @@ public class FlightController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Flight>> getAllFlights() {
-        return ResponseEntity.ok(flightService.getAllFlights());
+    public ResponseEntity<List<FlightDto>> getAllFlights() {
+        return ResponseEntity.ok(flightService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Flight> getFlightById(@RequestParam Long id) {
-        return flightService.getFlightById(id)
+    public ResponseEntity<FlightDto> getFlightById(@RequestParam int id) {
+        return flightService.findById(id)
                 .map( a -> ResponseEntity.ok().body(a))
                 .orElseThrow(()-> new FlightNotFoundException("doesnt found fligh with"+id));
     }
 
     @PostMapping()
-    public ResponseEntity<Flight> createFlight(@RequestBody Flight flight) {
+    public ResponseEntity<FlightDto> createFlight(@RequestBody FlightDto flight) {
         return createNewFlight(flight);
-
-        // Flight c = flightService.saveFlight(flight);
-        // return ResponseEntity.created(new URI("/api/v1/flights/" + c.getId())).body(c);
-        // Thowght the exception.
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Flight> updateFlight(@PathVariable Long id, @RequestBody Flight flight) {
-        Optional<Flight> flightUpdated = flightService.updateFlight(id, flight);
+    public ResponseEntity<FlightDto> updateFlight(@PathVariable int id, @RequestBody FlightDto flight) {
+        Optional<FlightDto> flightUpdated = flightService.update(id, flight);
         return flightUpdated
                 .map(c -> ResponseEntity.ok(c))
                 .orElseGet(() -> {
@@ -53,17 +50,17 @@ public class FlightController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFlight(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteFlight(@PathVariable int id) {
         flightService.deleteFlight(id);
         return ResponseEntity.noContent().build();
     }
 
     @NotNull
-    private static ResponseEntity<Flight> createNewFlight(Flight c) {
+    private static ResponseEntity<FlightDto> createNewFlight(FlightDto c) {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(c.getId())
+                .buildAndExpand(c.id())
                 .toUri();
         return ResponseEntity.created(location).body(c);
     }

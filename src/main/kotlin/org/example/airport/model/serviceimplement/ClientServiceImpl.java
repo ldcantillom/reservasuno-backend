@@ -1,8 +1,8 @@
 package org.example.airport.model.serviceimplement;
 import lombok.AllArgsConstructor;
-import org.example.airport.model.dtos.ClientDto;
 import org.example.airport.model.mapper.ClientMapper;
-import org.example.airport.model.dtos.ClientIdDto;
+import org.example.airport.model.dtos.ClientDto;
+import org.example.airport.model.mapper.ReserveMapper;
 import org.example.airport.model.repositories.ClientRepository;
 import org.example.airport.model.entities.Client;
 import org.example.airport.model.services.ClientService;
@@ -16,49 +16,48 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor(onConstructor = @__(@Lazy))
 public class ClientServiceImpl implements ClientService {
-    private ClientRepository clientRepository;
     private ClientMapper clientMapper;
+    private ReserveMapper reserveMapper;
+    private ClientRepository clientRepository;
 
     @Override
-    public ClientIdDto saveClient(ClientDto clientDto) {
-        return clientMapper.toIdDto(clientRepository.save(clientMapper.toEntity(clientDto)));
+    public ClientDto save(ClientDto client) {
+        return clientMapper.toIdDto(clientRepository.save(clientMapper.toEntity(client)));
     }
 
     @Override
-    public Optional<ClientIdDto> getById(Long id) {
-        return Optional.of(clientMapper.toIdDto(clientRepository.findById(id).get()));
+    public Optional<ClientDto> findById(int id) {
+        return clientRepository.findById((long) id).map(clientMapper::toIdDto);
     }
 
     @Override
-    public List<ClientIdDto> getAllClients() {
-        return clientMapper.toListIdDto(clientRepository.findAll());
-    }
-
-    @Override
-    public List<ClientIdDto> getAllClientsByIds(List<Long> ids) {
-        return clientMapper.toListIdDto(clientRepository.findAllById(ids));
-    }
-
-    @Override
-    public List<ClientIdDto> getAllClientsByName(String name) {
-        Client c = new Client();
-        c.setFirstName(name);
-        Example<Client> example = Example.of(c);
-        return clientMapper.toListIdDto(clientRepository.findAll(example));
-    }
-
-    @Override
-    public Optional<ClientIdDto> updateClient(Long id, ClientDto clientDto) {
-        return clientRepository.findById(id).map(oldClient -> {
-            oldClient.setFirstName(clientDto.firstName());
-            oldClient.setLastName(clientDto.lastName());
-            oldClient.setEmail(clientDto.email());
-            oldClient.setAddress(clientDto.address());
-            oldClient.setCell(clientDto.cell());
+    public Optional<ClientDto> update(int id, ClientDto client) {
+        return clientRepository.findById((long) id).map(oldClient -> {
+            oldClient.setAddress(client.address());
+            oldClient.setFirstName(client.firstName());
+            oldClient.setLastName(client.lastName());
+            oldClient.setCell(client.cell());
+            oldClient.setEmail(client.email());
+            oldClient.setUsername(client.username());
+            oldClient.setReserves(reserveMapper.toListEntity(client.reserves()));
             return clientMapper.toIdDto(clientRepository.save(oldClient));
         });
     }
 
     @Override
-    public void deleteClient(Long id) { clientRepository.deleteById(id); }
+    public List<ClientDto> findAll() {
+        return clientMapper.toListIdDto(clientRepository.findAll());
+    }
+
+    @Override
+    public List<ClientDto> findByName(String name) {
+        Client c = new Client();
+        c.setFirstName(name);
+        return clientMapper.toListIdDto(clientRepository.findAll(Example.of(c)));
+    }
+
+    @Override
+    public void deleteById(int id) {
+        clientRepository.deleteById((long) id);
+    }
 }

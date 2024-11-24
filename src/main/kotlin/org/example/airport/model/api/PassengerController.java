@@ -1,7 +1,6 @@
 package org.example.airport.model.api;
 
 import org.example.airport.model.dtos.PassengerDto;
-import org.example.airport.model.dtos.PassengerIdDto;
 import org.example.airport.model.exceptions.PassengerNotFoundException;
 import org.example.airport.model.services.PassengerService;
 import org.jetbrains.annotations.NotNull;
@@ -23,19 +22,19 @@ public class PassengerController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<PassengerIdDto>> getAllPassengers() {
-        return ResponseEntity.ok(passengerService.getAllPassengers());
+    public ResponseEntity<List<PassengerDto>> getAllPassengers() {
+        return ResponseEntity.ok(passengerService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PassengerIdDto> getPassengerById(@PathVariable Long id) {
+    public ResponseEntity<PassengerDto> getPassengerById(@PathVariable int id) {
         return passengerService.getById(id)
                 .map( c -> ResponseEntity.ok().body(c))
                 .orElseThrow(() -> new PassengerNotFoundException("doesnt found Passenger with id " + id ));
     }
 
     @PostMapping()
-    public ResponseEntity<PassengerIdDto> createPassenger(@RequestBody PassengerDto passengerDto) {
+    public ResponseEntity<PassengerDto> createPassenger(@RequestBody PassengerDto passengerDto) {
         return createNewPassenger(passengerDto);
 
         // Passenger c = passengerService.savePassenger(passenger);
@@ -44,8 +43,8 @@ public class PassengerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PassengerIdDto> updatePassenger(@PathVariable Long id, @RequestBody PassengerDto passengerDto) {
-        Optional<PassengerIdDto> passengerUpdated = passengerService.updatePassenger(id, passengerDto);
+    public ResponseEntity<PassengerDto> updatePassenger(@PathVariable int id, @RequestBody PassengerDto passengerDto) {
+        Optional<PassengerDto> passengerUpdated = passengerService.update(id, passengerDto);
         return passengerUpdated
                 .map(c -> ResponseEntity.ok(c))
                 .orElseGet(() -> {
@@ -54,14 +53,14 @@ public class PassengerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePassenger(@PathVariable Long id) {
-        passengerService.deletePassenger(id);
+    public ResponseEntity<Void> deletePassenger(@PathVariable int id) {
+        passengerService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @NotNull
-    private ResponseEntity<PassengerIdDto> createNewPassenger(PassengerDto p) {
-        PassengerIdDto passangerSaved = passengerService.savePassenger(p);
+    private ResponseEntity<PassengerDto> createNewPassenger(PassengerDto p) {
+        PassengerDto passangerSaved = passengerService.save(p);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

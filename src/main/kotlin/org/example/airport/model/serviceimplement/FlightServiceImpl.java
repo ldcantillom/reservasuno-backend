@@ -1,8 +1,10 @@
 package org.example.airport.model.serviceimplement;
 
 import lombok.AllArgsConstructor;
-import org.example.airport.model.entities.Airport;
+import org.example.airport.model.dtos.FlightDto;
 import org.example.airport.model.entities.Flight;
+import org.example.airport.model.mapper.FlightMapper;
+import org.example.airport.model.repositories.AirlaneRepository;
 import org.example.airport.model.repositories.FlightRepository;
 import org.example.airport.model.services.FlightService;
 import org.springframework.context.annotation.Lazy;
@@ -16,70 +18,51 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor(onConstructor = @__(@Lazy))
 public class FlightServiceImpl implements FlightService {
-    private FlightRepository flighRepository;
-
+    private final AirlaneRepository airlaneRepository;
+    private FlightMapper flightMapper;
+    FlightRepository flightRepository;
 
     @Override
-    public Flight saveFlight(Flight flight) {
-        return flighRepository.save(flight);
+    public FlightDto save(FlightDto flight) {
+        return flightMapper.toIdDto(flightRepository.save(flightMapper.toEntity(flight)));
     }
 
     @Override
-    public Optional<Flight> getFlightById(Long id) {
-        return flighRepository.findById(id);
+    public Optional<FlightDto> findById(int id) {
+        return flightRepository.findById((long) id).map(flightMapper::toIdDto);
     }
 
     @Override
-    public List<Flight> getAllFlights() {
-        return flighRepository.findAll();
-    }
+    public Optional<FlightDto> update(int id, FlightDto flight) {
+        return flightRepository.findById((long) id).map(oldFlight ->{
+            oldFlight.setOrigin(flight.origin());
+            oldFlight.setDestination(flight.destination());
+            oldFlight.setAirlane(airlaneRepository.findById(flight.airlane()).get());
+            oldFlight.setAirport(flightMapper.mapToAirport(flight.airport()));
+            oldFlight.setDepartureTime(flight.departureTime());
+            oldFlight.setArrivalTime(flight.arrivalTime());
+            oldFlight.setCapacity(flight.capacity());
+            oldFlight.setReserves(flightMapper.mapToReserveList(flight.reserves()));
 
-    @Override
-    public List<Flight> getAllFlightsByIds(List<Long> ids) {
-        return flighRepository.findAllById(ids);
-    }
-
-    @Override
-    public List<Flight> getAllFlightsByAirport(Airport airport) {
-        Flight flight = new Flight();
-        flight.setAirportOrigin(airport);
-        Example<Flight> example = Example.of(flight);
-        return flighRepository.findAll(example);
-    }
-
-    @Override
-    public List<Flight> getAllFlightsByDate(LocalDateTime date) {
-        Flight flight = new Flight();
-        flight.setDepartureTime(date);
-        Example<Flight> example = Example.of(flight);
-        return flighRepository.findAll(example);
-    }
-
-    @Override
-    public List<Flight> getAllFlightsByAirportAndDate(Airport airport, LocalDateTime date) {
-        Flight flight = new Flight();
-        flight.setAirportOrigin(airport);
-        flight.setDepartureTime(date);
-        Example<Flight> example = Example.of(flight);
-        return flighRepository.findAll(example);
-    }
-
-
-
-    @Override
-    public Optional<Flight> updateFlight(Long id,Flight flight) {
-        return flighRepository.findById(id).map(oldFligh -> {
-            oldFligh.setDepartureTime(flight.getDepartureTime());
-            oldFligh.setAirportOrigin(flight.getAirportOrigin());
-            oldFligh.setAirportDestination(flight.getAirportDestination());
-            oldFligh.setAirlane(flight.getAirlane());
-            oldFligh.setCapacity(flight.getCapacity());
-            oldFligh.setArrivalTime(flight.getArrivalTime());
-            oldFligh.setReserves(flight.getReserves());
-            return flighRepository.save(oldFligh);
+            return flightMapper.toIdDto(flightRepository.save(oldFlight));
         });
     }
 
     @Override
-    public void deleteFlight(Long id) { flighRepository.deleteById(id); }
+    public List<FlightDto> findAll() {
+        return flightMapper.toListIdDto(flightRepository.findAll());
+    }
+
+    @Override
+    public List<FlightDto> findByDate(LocalDateTime date) {
+        Flight f = new Flight();
+        f.setDepartureTime(date);
+        Example<Flight> example = Example.of(f);
+        return flightMapper.toListIdDto(flightRepository.findAll(example));
+    }
+
+    @Override
+    public void deleteFlight(int id) {
+        flightRepository.deleteById((long) id);
+    }
 }
