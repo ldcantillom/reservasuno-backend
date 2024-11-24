@@ -45,7 +45,7 @@ public class Client {
 
     private String email;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private List<Reserve> reserves;
 
     @Column(nullable = false)
