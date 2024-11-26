@@ -76,8 +76,8 @@ public class AuthenticationController {
         Role defaultRole = roleRepository.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Rol ROLE_USER no encontrado"));
         Client user = new Client(
                 sRequest.username(),
-                passwordEncoder.encode(sRequest.password()),
                 sRequest.email(),
+                passwordEncoder.encode(sRequest.password()),
                 new HashSet<>(Set.of(defaultRole))
         );
         Client newUser = userRepository.save(user);
