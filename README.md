@@ -1,23 +1,23 @@
-# API REST para Sistema de Aerolíneas ✈️
-Este es mi primer proyecto desarrollado con Spring Boot. Se trata de una API REST diseñada para gestionar operaciones básicas relacionadas con un sistema de aerolíneas. El enfoque principal fue comprender la arquitectura de Spring Boot y los principios del desarrollo backend, por lo que actualmente carece de ciertas validaciones esenciales.
+# REST API for Airline System ✈️
+This is my first project developed with Spring Boot. It is a REST API designed to manage basic operations related to an airline system. The main focus was to understand Spring Boot architecture and backend development principles, so currently it lacks certain essential validations.
 
-## Características principales 🌟
-- Gestión de vuelos: Operaciones CRUD para la gestión de vuelos disponibles.
-- Gestión de usuarios: Funciones básicas para agregar y listar usuarios.
-- Estructura modular: Implementación inicial de controladores, servicios y repositorios para manejar la lógica.
+## Key features 🌟
+- Flight management: CRUD operations for managing available flights.
+- User management: Basic functions for adding and listing users.
+- Modular structure: Initial implementation of controllers, services and repositories to manage logic.
 
-## Propósito 📚
-Este proyecto fue creado como un ejercicio educativo para:
-- Familiarizarme con la arquitectura de Spring Boot.
-- Implementar endpoints REST siguiendo buenas prácticas iniciales.
-- Integrar bases de datos en el backend para persistencia de datos.
+## Purpose 📚
+This project was created as an educational exercise to:
+- Familiarize myself with Spring Boot architecture.
+- Implement REST endpoints following good initial practices.
+- Integrate databases into the backend for data persistence.
 
-## Estado del proyecto 🚧
-Dado su propósito de aprendizaje, la API aún está en desarrollo y podría ampliarse con más funcionalidades y validaciones en futuras versiones.
+## Project Status 🚧
+Given its learning purpose, the API is still under development and could be extended with more functionalities and validations in future releases.
 
-## Tecnologías utilizadas 🛠️
+## Technologies used 🛠️
 - Spring Boot
-- Base de datos PostgreSQL
+- PostgreSQL database
 - Maven
 - Mapstruct
 - Lombok
